@@ -3,7 +3,7 @@ package JflexyCup;
 %%
 
 /*Segunda seccion: Configuracion*/
-%class Gramaticas
+%class Lexico
 %unicode
 %line
 %column

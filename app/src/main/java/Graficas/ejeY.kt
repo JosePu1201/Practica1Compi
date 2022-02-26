@@ -1,0 +1,4 @@
+package Graficas
+
+class ejeY {
+}

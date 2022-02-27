@@ -65,7 +65,7 @@ Espacios = [\t]|[\f][\n]
 ["["]               {return new Symbol(sym.CDERECHA,yyline+1,yycolumn+1,yytext());}
 ["]"]               {return new Symbol(sym.CIZQUIERDA,yyline+1,yycolumn+1,yytext());}
 ["{"]               {return new Symbol(sym.LLDERECHA,yyline+1,yycolumn+1,yytext());}
-["}"]               {return new Symbol(sym.LLUZQUIERDA,yyline+1,yycolumn+1,yytext());}
+["}"]               {return new Symbol(sym.LLIZQUIERDA,yyline+1,yycolumn+1,yytext());}
 {Palabra}           {return new Symbol(sym.PAL,yyline+1,yycolumn+1,yytext());}    
 {Entero}            {return new Symbol(sym.ENTERO,yyline+1,yycolumn+1,yytext());}
 {Decimal}           {return new Symbol(sym.DECIMAL,yyline+1,yycolumn+1,yytext());}      

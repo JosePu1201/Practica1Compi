@@ -1,0 +1,78 @@
+//seccion del codigo de usuario
+
+
+parser code {: 
+	private ArrayList<Grafica> array = new ArrayList<Grafica>;
+:};
+
+
+//
+
+//daclarar los temrinales
+
+terminal DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES, UNIR, TIPO, TOTAL, EXTRA, CANT, PORCENTAJE, SUM, REST, MULT, DIV,PDERECHA, EJECUTAR, PIZQUIERDA, PYCOMA, COMA, CDERECHA, CIZQUIERDA, LLIZQUIERDA, LLDERECHA, DPUNTOS, ENTERO, DECIMAL, PAL;
+
+//declarar no terminales
+
+non terminal inicio, a, tipoGrafica,md, ag, barras, expresionpie, d, f, itemsEjex, valores, llaves,tipo, total, operacion;
+
+//gramatica
+
+inicio ::= DEF tipoGrafica {::}
+	;
+tipoGrafica ::= BARRAS LLIZQUIERDA barras d {::}
+	|  PIE LLIZQUIERDA expresionpie d {::}
+	;
+d ::= DEF tipoGrafica {::}
+	| EJECUTAR PIZQUIERDA  PAL PDERECHA PYCOMA f  {::}
+	;
+f ::= EJECUTAR PIZQUIERDA  PAL PDERECHA PYCOMA f {::}
+	| //cadena vacia {::}
+	;
+barras ::= TITULO DPUNTOS PAL PYCOMA barras  {::}
+	| EJEX DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA barras  {::}
+	| EJEY DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA barras  {::}
+	| UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA barras  {::}
+	| LLDERECHA
+	;
+itemsEjex ::= PAL  {::}
+	| PAL COMA itemsEjex {::}
+	; 
+valores ::= operacion COMA operacion  {::}
+   | operacion  {::}
+	;
+operacion ::= a {::}
+	;
+	//Adicion y sustraccion
+a ::= a SUM md {::}
+	| a REST md {::}
+	| md {::}
+	;
+	//muultiplicacion y division
+md ::= md MULT ag {::}
+	| md DIV ag {::}
+	| ag {::}
+	;
+	//agrupacion
+ag ::= PIZQUIERDA a PDERECHA {::}
+	| ENTERO  {::}
+	| DECIMAL {::}
+	;
+llaves ::= LLIZQUIERDA operacion COMA operacion LLDERECHA {::}
+	| LLIZQUIERDA operacion COMA operacion LLDERECHA COMA llaves
+	;
+expresionpie ::= TITULO DPUNTOS PAL PYCOMA expresionpie  {::}
+	| UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA expresionpie {::}
+	| ETIQUETAS DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA expresionpie {::}
+	| VALORES DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA expresionpie {::}
+	| TIPO DPUNTOS tipo PYCOMA  expresionpie {::}
+	| TOTAL DPUNTOS total PYCOMA expresionpie {::}
+	| EXTRA DPUNTOS  PAL  PYCOMA expresionpie {::}
+	| LLDERECHA 
+	; 
+tipo ::= CANT  {::}
+	| PORCENTAJE  {::}
+	;
+total ::= operacion {::}
+	;
+	

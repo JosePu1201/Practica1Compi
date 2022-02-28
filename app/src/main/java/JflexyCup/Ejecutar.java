@@ -10,26 +10,8 @@ import java.util.Scanner;
 import Graficas.Grafica;
 
 public class Ejecutar {
-    public  Ejecutar() {
-        System.out.println("entra+-");
-        String entrada = "Def Barras{\n" +
-                "            \ttitulo: \"Grafica1 \";\n" +
-                "            \tejex:[\"item1\", \"item2\"];\n" +
-                "            \tejey:[5, 10+5];\n" +
-                "            \tunir:[{0,1}, {1,0}];\n" +
-                "}\n" +
-                "Ejecutar(\"Grafica1\");";
-        /*try {
-            InputStream ins = new FileInputStream("src/main/java/JflexyCup/p.txt");
-            Scanner obj = new Scanner(ins);
-            while (obj.hasNextLine()){
-                entrada += obj.nextLine();
-            }
+    public  Ejecutar(String entrada) {
 
-        }catch(Exception a){
-
-
-        }*/
         System.out.println(entrada);
         Reader reader = new StringReader(entrada.toString());
         Lexico nuevo = new Lexico(reader);

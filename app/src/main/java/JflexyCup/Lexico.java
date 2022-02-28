@@ -733,7 +733,7 @@ class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 48: break;
           case 16: 
-            { return new Symbol(sym.LLUZQUIERDA,yyline+1,yycolumn+1,yytext());
+            { return new Symbol(sym.LLIZQUIERDA,yyline+1,yycolumn+1,yytext());
             } 
             // fall through
           case 49: break;

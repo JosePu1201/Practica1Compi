@@ -1,5 +1,7 @@
 //seccion del codigo de usuario
-
+package JflexyCup;
+import java_cup.runtime.*;
+import JflexyCup.Lexico;
 
 parser code {: 
 	private ArrayList<Grafica> array = new ArrayList<Grafica>;

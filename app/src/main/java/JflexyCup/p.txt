@@ -1,0 +1,23 @@
+def Barras{
+            	titulo: "Grafica1 ";
+            	ejex:[“item1”, “item2”];
+            	ejey:[5, 10+5];
+            	unir:[{0,1}, {1,0}];
+}
+Def Pie{
+titulo: "Grafica 2";
+tipo: Cantidad;
+etiquetas: ["Compi1", "Compi2"];
+valores:[5, 10];
+total: 25;
+unir:[{0,1}, {1,0}];
+extra: "Resto";
+}
+Def Pie{
+titulo: "Grafica 2";
+tipo: Porcentaje;
+etiquetas: ["Compi1", "Compi2"];
+valores:[5, 10];
+unir:[{0,1}, {1,0}];
+extra: "Resto";
+}

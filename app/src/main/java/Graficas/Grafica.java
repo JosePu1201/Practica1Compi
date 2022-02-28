@@ -97,4 +97,20 @@ public class Grafica {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    @Override
+    public String toString() {
+        return "Grafica{" +
+                "tipo='" + tipo + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", ejex=" + ejex +
+                ", ejey=" + ejey +
+                ", etiquetas=" + etiquetas +
+                ", valores=" + valores +
+                ", unir=" + unir +
+                ", tipoCP='" + tipoCP + '\'' +
+                ", total=" + total +
+                ", extra='" + extra + '\'' +
+                '}';
+    }
 }

@@ -240,6 +240,9 @@ public class parser extends lr_parser {
 
 
  
+public parser(Lexico lexer) {
+        super(lexer);
+    }
 	private ArrayList<Grafica> array = new ArrayList<Grafica>();
 	private ArrayList<String> array1 = new ArrayList<String>();
 	private ArrayList<String> array3 = new ArrayList<String>();
@@ -256,6 +259,23 @@ public class parser extends lr_parser {
 		array1 = null;
 		array1 = new ArrayList<String>();
 	}
+	public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+    
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+public void syntax_error(Symbol cur_token) {
+        System.out.println("El error es el simbolo: " + sym.terminalNames[cur_token.sym]);
+        System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == sym.EOF) {
+            System.out.println("public void unrecoveredsyntax_error");
+        }
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -286,7 +306,10 @@ class CUP$parser$actions {
           case 0: // inicio ::= DEF tipoGrafica 
             {
               Object RESULT =null;
-		
+		int kleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int kright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object k = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		System.out.println("Esto es un Def"+k.toString());
               CUP$parser$result = parser.getSymbolFactory().newSymbol("inicio",0, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -338,8 +361,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int graficaleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int graficaright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
-		Integer grafica = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		array3.add(String.valueOf(grafica));
+		Object grafica = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("d",7, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -350,8 +373,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int graficaleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int graficaright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
-		Integer grafica = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		array3.add(String.valueOf(grafica));
+		Object grafica = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("f",8, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -371,8 +394,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int titleleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int titleright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		Integer title = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		nueva.setTitulo(String.valueOf(title));
+		Object title = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("barras",5, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -381,7 +404,7 @@ class CUP$parser$actions {
           case 9: // barras ::= EJEX DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA barras 
             {
               Object RESULT =null;
-		nueva.setEjex(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("barras",5, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -390,7 +413,7 @@ class CUP$parser$actions {
           case 10: // barras ::= EJEY DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA barras 
             {
               Object RESULT =null;
-		nueva.setEjey(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("barras",5, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -399,7 +422,7 @@ class CUP$parser$actions {
           case 11: // barras ::= UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA barras 
             {
               Object RESULT =null;
-		nueva.setUnir(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("barras",5, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -408,7 +431,7 @@ class CUP$parser$actions {
           case 12: // barras ::= LLDERECHA 
             {
               Object RESULT =null;
-		killAd();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("barras",5, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -419,8 +442,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int itemleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int itemright = ((Symbol)CUP$parser$stack.peek()).right;
-		Integer item = (Integer)((Symbol) CUP$parser$stack.peek()).value;
-		array1.add(String.valueOf(item));
+		Object item = (Object)((Symbol) CUP$parser$stack.peek()).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("itemsEjex",9, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -431,8 +454,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int itemleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int itemright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		Integer item = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		array1.add(String.valueOf(item));array1.add(",");
+		Object item = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("itemsEjex",9, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -441,7 +464,7 @@ class CUP$parser$actions {
           case 15: // valores ::= operacion COMA operacion 
             {
               Object RESULT =null;
-		array1.add(",");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("valores",10, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -468,7 +491,7 @@ class CUP$parser$actions {
           case 18: // a ::= a SUM md 
             {
               Object RESULT =null;
-		array1.add("+");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("a",1, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -477,7 +500,7 @@ class CUP$parser$actions {
           case 19: // a ::= a REST md 
             {
               Object RESULT =null;
-		array1.add("-");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("a",1, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -495,7 +518,7 @@ class CUP$parser$actions {
           case 21: // md ::= md MULT ag 
             {
               Object RESULT =null;
-		array1.add("*");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("md",3, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -504,7 +527,7 @@ class CUP$parser$actions {
           case 22: // md ::= md DIV ag 
             {
               Object RESULT =null;
-		array1.add("/");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("md",3, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -533,8 +556,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int enteroleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int enteroright = ((Symbol)CUP$parser$stack.peek()).right;
-		Integer entero = (Integer)((Symbol) CUP$parser$stack.peek()).value;
-		array1.add(""+entero);
+		Object entero = (Object)((Symbol) CUP$parser$stack.peek()).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ag",4, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -545,8 +568,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int decimalleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int decimalright = ((Symbol)CUP$parser$stack.peek()).right;
-		Integer decimal = (Integer)((Symbol) CUP$parser$stack.peek()).value;
-		array1.add(""+decimal);
+		Object decimal = (Object)((Symbol) CUP$parser$stack.peek()).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ag",4, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -555,7 +578,7 @@ class CUP$parser$actions {
           case 27: // llaves ::= LLIZQUIERDA operacion COMA operacion LLDERECHA 
             {
               Object RESULT =null;
-		array1.add("{");array1.add(",");array1.add("}");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("llaves",11, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -564,7 +587,7 @@ class CUP$parser$actions {
           case 28: // llaves ::= LLIZQUIERDA operacion COMA operacion LLDERECHA COMA llaves 
             {
               Object RESULT =null;
-		array1.add("{");array1.add(",");array1.add("}");array1.add(",");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("llaves",11, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -575,8 +598,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int titleleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int titleright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		Integer title = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		nueva.setTitulo(String.valueOf(title));
+		Object title = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -585,7 +608,7 @@ class CUP$parser$actions {
           case 30: // expresionpie ::= UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA expresionpie 
             {
               Object RESULT =null;
-		nueva.setUnir(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -594,7 +617,7 @@ class CUP$parser$actions {
           case 31: // expresionpie ::= ETIQUETAS DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA expresionpie 
             {
               Object RESULT =null;
-		nueva.setEtiquetas(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -603,7 +626,7 @@ class CUP$parser$actions {
           case 32: // expresionpie ::= VALORES DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA expresionpie 
             {
               Object RESULT =null;
-		nueva.setValores(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -621,7 +644,7 @@ class CUP$parser$actions {
           case 34: // expresionpie ::= TOTAL DPUNTOS total PYCOMA expresionpie 
             {
               Object RESULT =null;
-		nueva.setTotal(array1);killArray();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -632,8 +655,8 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int extraleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int extraright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		Integer extra = (Integer)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		nueva.setExtra(String.valueOf(extra));
+		Object extra = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -642,7 +665,7 @@ class CUP$parser$actions {
           case 36: // expresionpie ::= LLDERECHA 
             {
               Object RESULT =null;
-		killAd();
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionpie",6, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -651,7 +674,7 @@ class CUP$parser$actions {
           case 37: // tipo ::= CANT 
             {
               Object RESULT =null;
-		nueva.setTipoCP("Cantidad");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipo",12, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -660,7 +683,7 @@ class CUP$parser$actions {
           case 38: // tipo ::= PORCENTAJE 
             {
               Object RESULT =null;
-		nueva.setTipoCP("Porcentaje");
+		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipo",12, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

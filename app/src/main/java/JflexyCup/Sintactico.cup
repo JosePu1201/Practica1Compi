@@ -1,10 +1,144 @@
 //seccion del codigo de usuario
 package JflexyCup;
 import java_cup.runtime.*;
+import Graficas.Grafica;
 import JflexyCup.Lexico;
+import java.util.*;
 
-parser code {: 
-	private ArrayList<Grafica> array = new ArrayList<Grafica>;
+parser code {:
+	private ArrayList<Grafica> array = new ArrayList<Grafica>();
+	private ArrayList<String> ejex = new ArrayList<String>();
+	private ArrayList<Double> ejey = new ArrayList<Double>();
+	private ArrayList<String> unir = new ArrayList<String>();
+	private ArrayList<String> etiqueta = new ArrayList<String>();
+	private ArrayList<Double> valores = new ArrayList<Double>();
+	private ArrayList<String> ejecutar = new ArrayList<String>(); 
+public parser(Lexico lexer) {
+        super(lexer);
+    }
+
+
+	Grafica nueva = new Grafica();
+	//Nueva Grafica 
+	public void guardarX(String [] a){
+		for(String ae : a){
+			System.out.print(ae+"++");
+			ejex.add(ae);
+		}
+		agregarLis();
+	}
+	public void guardarY(String [] a){
+		for(String ae : a){
+			double l = Double.parseDouble(ae);
+			System.out.print(l+"++");
+			ejey.add(l);
+		}
+		agregarLis();
+	}
+		public void guardarVal(String [] a){
+		for(String ae : a){
+			
+			double l = Double.parseDouble(ae);
+			System.out.print(l+"++");
+			valores.add(l);
+		}
+		agregarLis();
+	}
+		public void etiqueta(String [] a){
+		for(String ae : a){
+			System.out.print(ae+"++");
+			etiqueta.add(ae);
+		}
+		agregarLis();
+	}
+	//agregar y reset
+	public void killAd(){
+
+	}
+	public void agregarLis(){
+		nueva.setTipo("Barras");
+		nueva.setEjex(ejex);
+		nueva.setEjey(ejey);
+		nueva.setUnir(unir);
+		nueva.setEtiquetas(etiqueta);
+		nueva.setValores(valores);
+
+	}
+	public void agregarNuevoBarras(){
+		System.out.println("entra para agregas?");
+		nueva.setTipo("Barra");		
+		im("Agregando Barras");
+		prueba();
+		array.add(nueva);
+		prueba();
+		resetArreglos();
+		nueva.reset();
+
+	}
+	public void  prueba(){
+			System.out.println("##########################################");
+			for(Grafica a: array){
+			System.out.println(a.toString());
+		}
+		System.out.println("##########################################");		
+	}
+		public void agregarNuevoPie(){
+		nueva.setTipo("Pie");		
+		array.add(nueva);
+		for(Grafica a: array){
+			System.out.println("&&&&&&&&&&&&&&&&&");
+			System.out.println(a.toString());
+		}
+		resetArreglos();
+		nueva.reset();
+	}
+	public void resetArreglos(){
+		ejex.clear();
+		ejey.clear();
+		unir.clear();
+		etiqueta.clear();
+		valores.clear();
+	}
+	public void im(String n){
+		System.out.println("Estoy en: "+n+"\n Y el objeto esta asi");
+		System.out.println(nueva.toString());
+		
+	}
+	//Casteo de Object
+	public String casteo(Object o){
+		String salida = "";
+			try{
+				salida = o.toString();
+			}
+			catch(Exception i){
+				salida = "Error";
+			}
+		return salida;
+	}
+
+	public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+    
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+public void syntax_error(Symbol cur_token) {
+        System.out.println("El error es el simbolo: " + sym.terminalNames[cur_token.sym]);
+        System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        if (cur_token.sym == sym.EOF) {
+            System.out.println("public void unrecoveredsyntax_error");
+        }
+    }
+    public ArrayList<String> ejecuciones(){
+	    return ejecutar;
+    }
+    public ArrayList<Grafica> graf(){
+	    return array;
+    }
 :};
 
 
@@ -12,69 +146,85 @@ parser code {:
 
 //daclarar los temrinales
 
-terminal DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES, UNIR, TIPO, TOTAL, EXTRA, CANT, PORCENTAJE, SUM, REST, MULT, DIV,PDERECHA, EJECUTAR, PIZQUIERDA, PYCOMA, COMA, CDERECHA, CIZQUIERDA, LLIZQUIERDA, LLDERECHA, DPUNTOS, ENTERO, DECIMAL, PAL;
+terminal DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES, UNIR, TIPO, TOTAL, EXTRA, CANT, PORCENTAJE, SUM, REST, MULT, DIV,PDERECHA, EJECUTAR, PIZQUIERDA, PYCOMA, COMA, CDERECHA, CIZQUIERDA, LLIZQUIERDA, LLDERECHA, DPUNTOS,PAL,ENTERO,DECIMAL;
 
 //declarar no terminales
 
-non terminal inicio, a, tipoGrafica,md, ag, barras, expresionpie, d, f, itemsEjex, valores, llaves,tipo, total, operacion;
+non terminal inicio, a, tipoGrafica,md, ag, barras, expresionpie, d, f, itemsEjex, valores, llaves,tipo, total, operacion,h;
 
 //gramatica
 
 inicio ::= DEF tipoGrafica {::}
 	;
-tipoGrafica ::= BARRAS LLIZQUIERDA barras d {::}
-	|  PIE LLIZQUIERDA expresionpie d {::}
+tipoGrafica ::= BARRAS LLIZQUIERDA barras d {:nueva.setTipo("Barras");System.out.print("7a--");:}
+	|  PIE LLIZQUIERDA expresionpie d {:nueva.setTipo("Pie");:}
 	;
 d ::= DEF tipoGrafica {::}
-	| EJECUTAR PIZQUIERDA  PAL PDERECHA PYCOMA f  {::}
+	| EJECUTAR PIZQUIERDA  PAL:grafica PDERECHA PYCOMA f  {:ejecutar.add(casteo(grafica));System.out.print("6--");:}
 	;
-f ::= EJECUTAR PIZQUIERDA  PAL PDERECHA PYCOMA f {::}
+f ::= EJECUTAR PIZQUIERDA  PAL:grafica PDERECHA PYCOMA f {:ejecutar.add(casteo(grafica));:}
 	| //cadena vacia {::}
 	;
-barras ::= TITULO DPUNTOS PAL PYCOMA barras  {::}
-	| EJEX DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA barras  {::}
-	| EJEY DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA barras  {::}
-	| UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA barras  {::}
-	| LLDERECHA
+barras ::= TITULO DPUNTOS PAL:title PYCOMA barras  {:nueva.setTitulo(casteo(title));agregarNuevoBarras();im("5--");:}
+	| EJEX DPUNTOS CIZQUIERDA itemsEjex:item CDERECHA PYCOMA barras  {:
+		String [] valEjex = item.toString().replaceAll("\"", "").split(","); guardarX(valEjex); im("4--");
+	:}
+	| EJEY DPUNTOS CIZQUIERDA valores:val1 PYCOMA barras  {:String[] valo = val1.toString().split(","); guardarY(valo);im("3--");:}
+	| UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA barras  {:im("2--");:}
+	| LLDERECHA {:im("1--");:}
 	;
-itemsEjex ::= PAL  {::}
-	| PAL COMA itemsEjex {::}
+itemsEjex ::= PAL:item  {:RESULT = item;:}
+	| PAL:item COMA itemsEjex:item2 {:RESULT = item + ","+item2;:}
 	; 
-valores ::= operacion COMA operacion  {::}
-   | operacion  {::}
+valores ::= operacion:val1 h:val2  {:if(casteo(val1).equals("-1")){
+						RESULT = val1 +"";					
+					}else{
+						RESULT = val1 +","+val2;
+					}	:}
 	;
-operacion ::= a {::}
+	h ::= COMA operacion:val1 h:val2 {:if(casteo(val2).equals("-1")){
+						RESULT = val1 +"";					
+					}else{
+						RESULT = val1 +","+val2;
+					}:}
+	| CDERECHA {:RESULT = "-1";:}
+	;
+operacion ::= a:val1 {:RESULT = val1;:}
 	;
 	//Adicion y sustraccion
-a ::= a SUM md {::}
-	| a REST md {::}
-	| md {::}
+a ::= a:val1 SUM md:val2 {:RESULT = (double) val1 + (double) val2;:}
+	| a:val1 REST md:val2 {:RESULT = (double) val1 - (double) val2;:}
+	| md:val1 {:RESULT = val1;:}
 	;
 	//muultiplicacion y division
-md ::= md MULT ag {::}
-	| md DIV ag {::}
-	| ag {::}
+md ::= md:val1 MULT ag:val2 {:RESULT = (double) val1 * (double) val2;:}
+	| md:val1 DIV ag:val2 {:RESULT = (double) val1 / (double) val2;:}
+	| ag:val1 {:RESULT = val1;:}
 	;
 	//agrupacion
-ag ::= PIZQUIERDA a PDERECHA {::}
-	| ENTERO  {::}
-	| DECIMAL {::}
+ag ::= PIZQUIERDA a:val1 PDERECHA {:RESULT = val1;:}
+	| ENTERO:val1  {:RESULT = val1;:}
+	| DECIMAL:val2 {:RESULT = val2;:}
 	;
-llaves ::= LLIZQUIERDA operacion COMA operacion LLDERECHA {::}
-	| LLIZQUIERDA operacion COMA operacion LLDERECHA COMA llaves
+llaves ::= LLIZQUIERDA operacion:val1 COMA operacion:val2 LLDERECHA {:unir.add(casteo(val1)+","+casteo(val2));im("llaves--");:}
+	| LLIZQUIERDA operacion:val1 COMA operacion:val2 LLDERECHA COMA llaves {:unir.add(casteo(val1)+","+casteo(val2));:}
 	;
-expresionpie ::= TITULO DPUNTOS PAL PYCOMA expresionpie  {::}
+expresionpie ::= TITULO DPUNTOS PAL:title PYCOMA expresionpie  {:nueva.setTitulo(casteo(title));agregarNuevoPie();:}
 	| UNIR DPUNTOS CIZQUIERDA llaves CDERECHA PYCOMA expresionpie {::}
-	| ETIQUETAS DPUNTOS CIZQUIERDA itemsEjex CDERECHA PYCOMA expresionpie {::}
-	| VALORES DPUNTOS CIZQUIERDA valores CDERECHA PYCOMA expresionpie {::}
-	| TIPO DPUNTOS tipo PYCOMA  expresionpie {::}
-	| TOTAL DPUNTOS total PYCOMA expresionpie {::}
-	| EXTRA DPUNTOS  PAL  PYCOMA expresionpie {::}
-	| LLDERECHA 
+	| ETIQUETAS DPUNTOS CIZQUIERDA itemsEjex:item CDERECHA PYCOMA expresionpie {:
+	String [] etiqueta = item.toString().replaceAll("\"", "").split(",");;
+	etiqueta(etiqueta);:}
+	| VALORES DPUNTOS CIZQUIERDA valores:val1  PYCOMA expresionpie {:
+	String [] valo = val1.toString().split(",");;
+	guardarVal(valo);:}
+	| TIPO DPUNTOS tipo:tipe PYCOMA  expresionpie {::}
+	| TOTAL DPUNTOS total:tot PYCOMA expresionpie {:nueva.setTotal(Double.parseDouble(tot.toString()));:}
+	| EXTRA DPUNTOS  PAL:extra  PYCOMA expresionpie {:nueva.setExtra((extra.toString()));:}
+	| LLDERECHA {::}
 	; 
-tipo ::= CANT  {::}
-	| PORCENTAJE  {::}
+tipo ::= CANT:tipe {:nueva.setTipoCP(casteo(tipe));:}
+	| PORCENTAJE:tipe  {:nueva.setTipoCP(casteo(tipe));:}
 	;
-total ::= operacion {::}
+total ::= operacion:val1 {:RESULT = val1;:}
 	;
 	

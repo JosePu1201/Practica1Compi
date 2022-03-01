@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     fun accion(view : View){
         var texto: TextView = findViewById(R.id.CajaTexto)
         var entrada: String = texto.text.toString()
-        Ejecutar(entrada)
+        var parser = Ejecutar(entrada)
+
     }
 }

@@ -737,13 +737,13 @@ class Lexico implements Scanner {
             // fall through
           case 48: break;
           case 17: 
-            { System.out.println("No entra aqui");
+            { //System.out.println("No entra aqui");
 						return new Symbol(sym.DEF,yyline+1,yycolumn+1,yytext());
             } 
             // fall through
           case 49: break;
           case 18: 
-            { System.out.println(yytext());
+            { //System.out.println(yytext());
 					return new Symbol(sym.PAL,yyline+1,yycolumn+1,yytext());
             } 
             // fall through
